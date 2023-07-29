@@ -1,0 +1,346 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'Proyecto Final Ecommerce Backend Nicolas Ippoliti'
+paths:
+  /users:
+    post:
+      summary: 'Register a new user'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'User object'
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: 'Successfully registered'
+          schema:
+            $ref: '#/definitions/User'
+    put:
+      summary: 'Update a user'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Updated user object'
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: 'Successfully updated'
+          schema:
+            $ref: '#/definitions/User'
+  /users/{userId}:
+    get:
+      summary: 'Get a user'
+      parameters:
+        - in: 'path'
+          name: 'userId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successful retrieval of user'
+          schema:
+            $ref: '#/definitions/User'
+    delete:
+      summary: 'Delete a user'
+      parameters:
+        - in: 'path'
+          name: 'userId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successfully deleted user'
+  /products:
+    post:
+      summary: 'Create a new product'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Product object'
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: 'Successfully created'
+          schema:
+            $ref: '#/definitions/Product'
+    get:
+      summary: 'Get all products'
+      responses:
+        200:
+          description: 'Successful retrieval of all products'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/definitions/Product'
+    put:
+      summary: 'Update a product'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Updated product object'
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: 'Successfully updated'
+          schema:
+            $ref: '#/definitions/Product'
+  /products/{productId}:
+    get:
+      summary: 'Get a product by id'
+      parameters:
+        - in: 'path'
+          name: 'productId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successful retrieval of product'
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: 'Product not found'
+    put:
+      summary: 'Update a product by id'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'path'
+          name: 'productId'
+          required: true
+          type: 'string'
+        - in: 'body'
+          name: 'body'
+          description: 'Updated product object'
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: 'Successfully updated'
+          schema:
+            $ref: '#/definitions/Product'
+    delete:
+      summary: 'Delete a product by id'
+      parameters:
+        - in: 'path'
+          name: 'productId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successfully deleted product'
+          schema:
+            $ref: '#/definitions/Product'
+  /carts:
+    get:
+      summary: 'Get current user cart'
+      responses:
+        200:
+          description: 'Successful retrieval of cart'
+          schema:
+            $ref: '#/definitions/Cart'
+        404:
+          description: 'Cart not found'
+    post:
+      summary: 'Create a new cart'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Cart object'
+          required: true
+          schema:
+            $ref: '#/definitions/Cart'
+      responses:
+        200:
+          description: 'Successfully created'
+          schema:
+            $ref: '#/definitions/Cart'
+    put:
+      summary: 'Update the current user cart'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Updated cart object'
+          required: true
+          schema:
+            $ref: '#/definitions/Cart'
+      responses:
+        200:
+          description: 'Successfully updated'
+          schema:
+            $ref: '#/definitions/Cart'
+    delete:
+      summary: 'Delete the current user cart'
+      responses:
+        200:
+          description: 'Successfully deleted cart'
+          schema:
+            $ref: '#/definitions/Cart'
+  /carts/{cartId}:
+    get:
+      summary: 'Get a cart'
+      parameters:
+        - in: 'path'
+          name: 'cartId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successful retrieval of cart'
+          schema:
+            $ref: '#/definitions/Cart'
+    delete:
+      summary: 'Delete a cart'
+      parameters:
+        - in: 'path'
+          name: 'cartId'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'Successfully deleted cart'
+  /carts/add:
+    post:
+      summary: 'Add a product to the current user cart'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Product to add'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              productId:
+                type: 'string'
+            required:
+              - productId
+      responses:
+        200:
+          description: 'Successfully added product to cart'
+          schema:
+            $ref: '#/definitions/Cart'
+  /carts/delete:
+    post:
+      summary: 'Delete a product from the current user cart'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Product to delete'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              productId:
+                type: 'string'
+            required:
+              - productId
+      responses:
+        200:
+          description: 'Successfully deleted product from cart'
+          schema:
+            $ref: '#/definitions/Cart'
+  /carts/clear:
+    post:
+      summary: 'Clear the current user cart'
+      responses:
+        200:
+          description: 'Successfully cleared cart'
+          schema:
+            $ref: '#/definitions/Cart'
+definitions:
+  User:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      name:
+        type: 'string'
+      email:
+        type: 'string'
+      role:
+        type: 'string'
+      cart:
+        type: 'string'
+    required:
+      - name
+      - email
+      - password
+      - role
+      - cart
+    unique:
+      - email
+  Product:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      name:
+        type: 'string'
+      description:
+        type: 'string'
+      code:
+        type: 'string'
+      category:
+        type: 'string'
+      price:
+        type: 'number'
+      status:
+        type: 'boolean'
+      countInStock:
+        type: 'number'
+      imageUrl:
+        type: 'string'
+    required:
+      - name
+      - description
+      - code
+      - category
+      - price
+      - status
+      - countInStock
+      - imageUrl
+  Cart:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      user:
+        type: 'string'
+      cartItems:
+        type: 'array'
+        items:
+          type: 'object'
+          properties:
+            product:
+              type: 'string'
+            quantity:
+              type: 'number'
+      total:
+        type: 'number'
+    required:
+      - user

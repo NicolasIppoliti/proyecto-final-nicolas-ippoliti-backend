@@ -1,0 +1,43 @@
+{
+  "name": "proyecto-final-nicolas-ippoliti-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha --require @babel/register --exit",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.1",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
+    "socket.io": "^4.7.1",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.10.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.9",
+    "@babel/register": "^7.22.5",
+    "@faker-js/faker": "^8.0.2",
+    "chai": "^4.3.7",
+    "chai-http": "^4.4.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "dotenv-flow": "^3.2.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
+  }
+}
