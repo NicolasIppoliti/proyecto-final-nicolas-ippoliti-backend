@@ -20,6 +20,7 @@ import userRoutes from './routes/users.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
 import cartRoutes from './routes/carts.js';
+import viewRoutes from './routes/views.js';
 
 // Swagger imports
 import swaggerUi from 'swagger-ui-express';
@@ -29,7 +30,7 @@ import yaml from 'yamljs';
 import logger from './config/winston.js';
 
 // Mocking module import
-import generateMockData from './models/mockup/mocking.module.js';
+// import generateMockData from './models/mockup/mocking.module.js';
 
 // Initialization
 dotenv.config();
@@ -67,14 +68,14 @@ io.on('connection', (socket) => {
 });
 
 // Generate mock data
-app.get('/mockup', async (req, res, next) => {
-  try {
-    await generateMockData();
-    res.json({ message: 'Mock data generated successfully' });
-  } catch (err) {
-    next(err);
-  }
-});
+// app.get('/mockup', async (req, res, next) => {
+//   try {
+//     await generateMockData();
+//     res.json({ message: 'Mock data generated successfully' });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 // Swagger configuration
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -91,6 +92,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/', viewRoutes);
 
 // Start server
 server.listen(app.get('port'), () => {

@@ -16,6 +16,10 @@ class UserRepository {
     return await User.findOne({ email });
   }
 
+  async getUserById(userId) {
+    return await User.findOne({ _id: userId });
+  }
+
   async comparePasswords(password, hashedPassword) {
     return await bcrypt.compare(password, hashedPassword);
   }

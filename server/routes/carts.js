@@ -1,12 +1,12 @@
 import express from 'express';
 import * as CartController from '../controllers/CartController.js';
 import CartDTO from '../dtos/CartDto.js';
-import passport from 'passport';
+import { isAdmin, isAuthenticated } from '../helpers/accessControl.js';
 
 const router = express.Router();
 const toCartDto = (cart) => new CartDTO(cart);
 
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get('/', isAuthenticated, async (req, res, next) => {
   try {
     const cart = await CartController.getCart(req, res, next);
     if (!cart) return res.status(404).json({ msg: 'Cart not found' });
@@ -16,7 +16,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res,
   }
 });
 
-router.post('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.post('/', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.createCart(req, res, next);
     res.json(toCartDto(cart));
@@ -25,7 +25,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
   }
 });
 
-router.put('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put('/', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.updateCart(req, res, next);
     res.json(toCartDto(cart));
@@ -34,7 +34,7 @@ router.put('/', passport.authenticate('jwt', {session: false}), async (req, res,
   }
 });
 
-router.delete('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.delete('/', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.deleteCart(req, res, next);
     res.json(toCartDto(cart));
@@ -43,7 +43,7 @@ router.delete('/', passport.authenticate('jwt', {session: false}), async (req, r
   }
 });
 
-router.post('/add', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.post('/add', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.addProductToCart(req, res, next);
     res.json(toCartDto(cart));
@@ -52,7 +52,7 @@ router.post('/add', passport.authenticate('jwt', {session: false}), async (req, 
   }
 });
 
-router.post('/delete', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.post('/delete', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.deleteProductFromCart(req, res, next);
     res.json(toCartDto(cart));
@@ -61,7 +61,7 @@ router.post('/delete', passport.authenticate('jwt', {session: false}), async (re
   }
 });
 
-router.post('/clear', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.post('/clear', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const cart = await CartController.clearCart(req, res, next);
     res.json(toCartDto(cart));

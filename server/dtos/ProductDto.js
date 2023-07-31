@@ -9,6 +9,7 @@ class ProductDTO {
     this.status = product.status;
     this.countInStock = product.countInStock;
     this.imageUrl = product.imageUrl;
+    this.owner = product.owner;
   }
 }
 

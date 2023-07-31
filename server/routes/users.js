@@ -3,6 +3,7 @@ import passport from 'passport';
 import * as UserController from '../controllers/UserController.js';
 import UserDTO from '../dtos/UserDto.js';
 import Joi from 'joi';
+import { isAdmin, isAuthenticated } from '../helpers/accessControl.js';
 
 const router = express.Router();
 const toUserDto = (user) => new UserDTO(user);
@@ -48,11 +49,11 @@ router.get('/auth/failure', (req, res) => {
   res.status(401).json({ message: 'Google authentication failed' });
 });
 
-router.put('/:id', passport.authenticate('jwt', {session: false}), UserController.updateUser);
+router.put('/:id', isAuthenticated, isAdmin, UserController.updateUser);
 
-router.delete('/:id', passport.authenticate('jwt', {session: false}), UserController.deleteUser);
+router.delete('/:id', isAuthenticated, isAdmin, UserController.deleteUser);
 
-router.get('/:email', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get('/:email', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const user = await UserController.getUserByEmail(req, res, next);
     if (!user) return res.status(404).json({ msg: 'User not found' });
@@ -62,7 +63,7 @@ router.get('/:email', passport.authenticate('jwt', {session: false}), async (req
   }
 });
 
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get('/', isAuthenticated, isAdmin, async (req, res, next) => {
   try {
     const users = await UserController.getUsers(req, res, next);
     res.json(users.map((user) => toUserDto(user)));
@@ -70,5 +71,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res,
     next(err);
   }
 });
+
+router.put('/premium/:uid', isAuthenticated, isAdmin, UserController.togglePremium);
 
 export default router;

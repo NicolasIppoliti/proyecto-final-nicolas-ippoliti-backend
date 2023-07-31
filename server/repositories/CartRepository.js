@@ -1,5 +1,7 @@
 import Cart from '../models/Cart.js';
 import CartDTO from '../dtos/CartDto.js';
+import Order from '../models/Order.js';
+import OrderDTO from '../dtos/OrderDto.js';
 
 class CartRepository {
 
@@ -107,8 +109,19 @@ class CartRepository {
     const cart = await Cart.findById(id);
     if (!cart) return null;
 
-    // Implementation depends on your purchasing logic, 
-    // you might want to create an Order from the Cart, empty the Cart, etc.
+    const order = new Order({
+      user: cart.user,
+      orderItems: cart.cartItems,
+      totalPrice: cart.total
+    });
+    await order.save();
+
+    // Clear the cart
+    cart.cartItems = [];
+    cart.total = 0;
+    await cart.save();
+
+    return new OrderDTO(order);
   }
 }
 

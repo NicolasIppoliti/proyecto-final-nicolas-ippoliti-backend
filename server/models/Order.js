@@ -19,47 +19,9 @@ const OrderSchema = new mongoose.Schema({
       },
     },
   ],
-  shippingAddress: {
-    type: String,
-    required: true,
-  },
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
-  paymentResult: {
-    id: { type: String },
-    status: { type: String },
-    update_time: { type: String },
-    email_address: { type: String },
-  },
-  taxPrice: {
-    type: Number,
-    required: true,
-  },
-  shippingPrice: {
-    type: Number,
-    required: true,
-  },
   totalPrice: {
     type: Number,
     required: true,
-  },
-  isPaid: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  paidAt: {
-    type: Date,
-  },
-  isDelivered: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  deliveredAt: {
-    type: Date,
   },
 }, {
   timestamps: true,

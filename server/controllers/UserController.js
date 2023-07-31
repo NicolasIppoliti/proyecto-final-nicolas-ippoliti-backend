@@ -79,3 +79,29 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 }
+
+export const getUserById = async (req, res, next) => {
+  try {
+    const user = await UserRepository.getUserById(req.params.id);
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const togglePremium = async (req, res, next) => {
+  try {
+    const user = await UserRepository.getUserById(req.params.uid);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.role = user.role === 'premium' ? 'user' : 'premium';
+    await UserRepository.updateUser(user);
+
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};

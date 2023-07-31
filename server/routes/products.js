@@ -1,12 +1,12 @@
 import express from 'express';
 import * as ProductController from '../controllers/ProductController.js';
 import ProductDTO from '../dtos/ProductDto.js';
-import passport from 'passport';
+import { isAuthenticated, isProductOwner } from '../helpers/accessControl.js';
 
 const router = express.Router();
 const toProductDto = (product) => new ProductDTO(product);
 
-router.post('/', passport.authenticate('jwt', {session: false}), ProductController.createProduct);
+router.post('/', isAuthenticated, isProductOwner, ProductController.createProduct);
 
 router.get('/', async (req, res, next) => {
   try {
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put('/:id', isAuthenticated, isProductOwner, async (req, res, next) => {
   try {
     const product = await ProductController.updateProduct(req, res, next);
     res.json(toProductDto(product));
@@ -36,7 +36,7 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, r
   }
 });
 
-router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.delete('/:id', isAuthenticated, isProductOwner, async (req, res, next) => {
   try {
     const product = await ProductController.deleteProduct(req, res, next);
     res.json(toProductDto(product));
