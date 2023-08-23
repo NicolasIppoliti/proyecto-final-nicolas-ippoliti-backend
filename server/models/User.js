@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
     enum: ['user', 'admin', 'premium'],
     default: 'user',
   },
+  lastActive: {
+    type: Date,
+    default: Date.now,
+  },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart',

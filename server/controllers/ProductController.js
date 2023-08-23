@@ -46,3 +46,13 @@ export const deleteProduct = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getProductOwner = async (req, res, next) => {
+  try {
+    const product = await ProductRepository.getProductById(req.params.id);
+    if (!product) return res.status(404).json({ msg: 'Product not found' });
+    return product.owner;
+  } catch (err) {
+    next(err);
+  }
+}

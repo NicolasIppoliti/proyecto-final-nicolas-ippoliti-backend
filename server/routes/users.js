@@ -74,4 +74,6 @@ router.get('/', isAuthenticated, isAdmin, async (req, res, next) => {
 
 router.put('/premium/:uid', isAuthenticated, isAdmin, UserController.togglePremium);
 
+router.delete('/', isAuthenticated, isAdmin, UserController.deleteInactiveUsers);
+
 export default router;
