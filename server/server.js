@@ -30,7 +30,7 @@ import yaml from 'yamljs';
 import logger from './config/winston.js';
 
 // Mocking module import
-// import generateMockData from './models/mockup/mocking.module.js';
+import generateMockData from './models/mockup/mocking.module.js';
 
 // Initialization
 dotenv.config();
@@ -67,15 +67,15 @@ io.on('connection', (socket) => {
   });
 });
 
-// Generate mock data
-// app.get('/mockup', async (req, res, next) => {
-//   try {
-//     await generateMockData();
-//     res.json({ message: 'Mock data generated successfully' });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+//Generate mock data
+app.get('/mockup', async (req, res, next) => {
+  try {
+    await generateMockData();
+    res.json({ message: 'Mock data generated successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Swagger configuration
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
