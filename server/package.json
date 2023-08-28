@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --require @babel/register --exit",
+    "test": "cross-env NODE_ENV=development mocha --require @babel/register --exit",
     "start": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js"
   },

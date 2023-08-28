@@ -3,6 +3,9 @@ import bcrypt from 'bcrypt';
 
 class UserRepository {
   async createUser(userData) {
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    userData.password = await bcrypt.hash(userData.password, salt);
     const user = new User(userData);
     await user.save();
     return user;

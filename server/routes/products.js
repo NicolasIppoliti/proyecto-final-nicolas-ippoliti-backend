@@ -2,17 +2,18 @@ import express from 'express';
 import * as ProductController from '../controllers/ProductController.js';
 import ProductDTO from '../dtos/ProductDto.js';
 import { isAuthenticated, isProductOwner } from '../helpers/accessControl.js';
-import sendEmail from '../mail/mailer.js';
+import Mailer from '../mail/mailer.js';
 
 const router = express.Router();
 const toProductDto = (product) => new ProductDTO(product);
+const mailer = new Mailer();
 
-router.post('/', isAuthenticated, isProductOwner, ProductController.createProduct);
+router.post('/', isProductOwner, isAuthenticated, ProductController.createProduct);
 
 router.get('/', async (req, res, next) => {
   try {
     const products = await ProductController.getProducts(req, res, next);
-    res.json(products.map(toProductDto));
+    res.json(products.map((product) => toProductDto(product)));
   } catch (err) {
     next(err);
   }
@@ -28,7 +29,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', isAuthenticated, isProductOwner, async (req, res, next) => {
+router.put('/:id', isProductOwner, isAuthenticated, async (req, res, next) => {
   try {
     const product = await ProductController.updateProduct(req, res, next);
     res.json(toProductDto(product));
@@ -37,12 +38,11 @@ router.put('/:id', isAuthenticated, isProductOwner, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', isAuthenticated, isProductOwner, async (req, res, next) => {
+router.delete('/:id', isProductOwner, isAuthenticated, async (req, res, next) => {
   try {
     const productOwner = await ProductController.getProductOwner(req, res, next);
-    sendEmail(productOwner.email, 'Product deleted', 'Your product has been deleted');
+    mailer.sendEmail(productOwner.email, 'Product deleted', 'Your product has been deleted');
     const product = await ProductController.deleteProduct(req, res, next);
-    res.json(toProductDto(product));
   } catch (err) {
     next(err);
   }

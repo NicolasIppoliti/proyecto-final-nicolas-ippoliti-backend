@@ -6,7 +6,7 @@ import { isAdmin, isAuthenticated } from '../helpers/accessControl.js';
 const router = express.Router();
 const toCartDto = (cart) => new CartDTO(cart);
 
-router.get('/', isAuthenticated, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const cart = await CartController.getCart(req, res, next);
     if (!cart) return res.status(404).json({ msg: 'Cart not found' });
@@ -16,7 +16,7 @@ router.get('/', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.post('/', isAuthenticated, isAdmin, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const cart = await CartController.createCart(req, res, next);
     res.json(toCartDto(cart));
@@ -25,7 +25,7 @@ router.post('/', isAuthenticated, isAdmin, async (req, res, next) => {
   }
 });
 
-router.put('/', isAuthenticated, isAdmin, async (req, res, next) => {
+router.put('/', async (req, res, next) => {
   try {
     const cart = await CartController.updateCart(req, res, next);
     res.json(toCartDto(cart));

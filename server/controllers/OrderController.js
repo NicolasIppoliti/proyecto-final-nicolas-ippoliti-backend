@@ -9,11 +9,20 @@ export const createOrder = async (req, res, next) => {
   }
 };
 
+export const getOrders = async (req, res, next) => {
+  try {
+    const orders = await OrderRepository.getOrders();
+    return orders;
+  } catch (err) {
+    next(err);
+  }
+}
+
 export const getOrderById = async (req, res, next) => {
   try {
     const order = await OrderRepository.getOrderById(req.params.id);
     if (!order) return res.status(404).json({ msg: 'Order not found' });
-    res.json(order);
+    return order;
   } catch (err) {
     next(err);
   }
@@ -23,7 +32,7 @@ export const updateOrder = async (req, res, next) => {
   try {
     const order = await OrderRepository.updateOrder(req.params.id, req.body);
     if (!order) return res.status(404).json({ msg: 'Order not found' });
-    res.json(order);
+    return order;
   } catch (err) {
     next(err);
   }

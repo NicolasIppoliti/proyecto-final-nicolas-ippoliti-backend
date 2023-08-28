@@ -12,23 +12,18 @@ const schema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
+  role: Joi.string().valid('user', 'admin', 'premium').default('user'),
+  lastActive: Joi.date().default(Date.now),
+  cart: Joi.string(),
 });
 
 router.post('/register', (req, res, next) => {
   const { error } = schema.validate(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
+  if (error) return res.status(400).json({ msg: error.details[0].message });
   next();
 }, UserController.registerUser);
 
-router.post('/login', async (req, res, next) => {
-  try {
-    const user = await UserController.loginUser(req, res, next);
-    if (!user) return res.status(404).json({ msg: 'User not found' });
-    res.json(toUserDto(user));
-  } catch (err) {
-    next(err);
-  }
-});
+router.post('/login', UserController.loginUser);
 
 router.get(
   '/auth/google',
@@ -49,11 +44,11 @@ router.get('/auth/failure', (req, res) => {
   res.status(401).json({ message: 'Google authentication failed' });
 });
 
-router.put('/:id', isAuthenticated, isAdmin, UserController.updateUser);
+router.put('/:id', isAdmin, isAuthenticated, UserController.updateUser);
 
-router.delete('/:id', isAuthenticated, isAdmin, UserController.deleteUser);
+router.delete('/:id', isAdmin, isAuthenticated, UserController.deleteUser);
 
-router.get('/:email', isAuthenticated, isAdmin, async (req, res, next) => {
+router.get('/:email', isAdmin, isAuthenticated, async (req, res, next) => {
   try {
     const user = await UserController.getUserByEmail(req, res, next);
     if (!user) return res.status(404).json({ msg: 'User not found' });
@@ -63,7 +58,7 @@ router.get('/:email', isAuthenticated, isAdmin, async (req, res, next) => {
   }
 });
 
-router.get('/', isAuthenticated, isAdmin, async (req, res, next) => {
+router.get('/', isAdmin, isAuthenticated, async (req, res, next) => {
   try {
     const users = await UserController.getUsers(req, res, next);
     res.json(users.map((user) => toUserDto(user)));
@@ -72,8 +67,8 @@ router.get('/', isAuthenticated, isAdmin, async (req, res, next) => {
   }
 });
 
-router.put('/premium/:uid', isAuthenticated, isAdmin, UserController.togglePremium);
+router.put('/premium/:uid', isAdmin, isAuthenticated, UserController.togglePremium);
 
-router.delete('/', isAuthenticated, isAdmin, UserController.deleteInactiveUsers);
+router.delete('/', isAdmin, isAuthenticated, UserController.deleteInactiveUsers);
 
 export default router;

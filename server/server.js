@@ -50,7 +50,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*", // Allow all origins
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
 const swaggerDocument = yaml.load('./swagger/swagger.yaml');
@@ -99,16 +99,10 @@ server.listen(app.get('port'), () => {
   logger.info(`Server is running on port ${app.get('port')}`)
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
 // MongoDB connection
 connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => logger.info('MongoDB connected'))
-  .catch((err) => logger.error(err));
+  .catch((err) => logger.error('MongoDB error' + err));
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
