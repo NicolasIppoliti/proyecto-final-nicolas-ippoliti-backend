@@ -8,7 +8,7 @@ function ProductDetail() {
 
   useEffect(() => {
     // Fetch product details from backend
-    axios.get(`http://localhost:3000/api/products/${id}`)
+    axios.get(`https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/products/${id}`)
       .then(response => {
         console.log('Product details', response.data)
         setProduct(response.data);
@@ -24,7 +24,7 @@ function ProductDetail() {
       const token = localStorage.getItem('token');
       const user = localStorage.getItem('user');
       const userId = JSON.parse(user).id;
-      await axios.post(`http://localhost:3000/api/cart/${userId}/add/${product.id}`, {
+      await axios.post(`https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/cart/${userId}/add/${product.id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
