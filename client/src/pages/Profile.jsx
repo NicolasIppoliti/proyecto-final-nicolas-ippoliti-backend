@@ -1,4 +1,3 @@
-// src/pages/Profile.jsx
 import { useState, useEffect } from 'react';
 
 const Profile = () => {
