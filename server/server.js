@@ -36,29 +36,13 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 
 // Enable CORS
-app.use(cors({
-  origin: ['https://proyecto-final-nicolas-ippoliti-frontend.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(cors());
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Swagger configuration
 const swaggerDocument = yaml.load('./swagger/swagger.yaml');
-
-io.on('connection', (socket) => {
-  logger.info('a user connected');
-
-  socket.on('disconnect', () => {
-    logger.info('user disconnected');
-  });
-
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
 
 //Generate mock data
 app.get('/mockup', async (req, res, next) => {
