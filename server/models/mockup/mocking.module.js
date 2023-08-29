@@ -20,7 +20,6 @@ export const generateMockData = async () => {
 
   // Generate mock products
   for (let i = 0; i < 50; i++) {
-    const users = await UserRepository.getUsers();
     const product = {
       name: faker.commerce.productName(),
       description: faker.lorem.sentence(),
@@ -30,7 +29,7 @@ export const generateMockData = async () => {
       status: true,
       countInStock: faker.number.int(),
       imageUrl: faker.image.url(),
-      owner: users[i]._id,
+      owner: null,
     };
     await ProductRepository.createProduct(product);
   }
