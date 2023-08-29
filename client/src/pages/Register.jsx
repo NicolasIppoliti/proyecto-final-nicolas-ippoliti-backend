@@ -19,12 +19,12 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/users/register', formData);
+      const response = await axios.post('http://localhost:3000/api/users/register', formData);
   
       console.log('Response from server', response.data);
   
       if(response.status >= 200 && response.status < 300) {
-        await axios.get('https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/users/auth/success', {
+        await axios.get('http://localhost:3000/api/users/auth/success', {
           headers: {  
             // Send the JWT in the Authorization header
             Authorization: `Bearer ${response.data.token}`,
@@ -34,7 +34,7 @@ function Register() {
         // Redirect to home page
         window.location.href = '/login';
       } else {
-        await axios.get('https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/users/auth/failure', {
+        await axios.get('http://localhost:3000/api/users/auth/failure', {
           headers: {
             // Send the JWT in the Authorization header
             Authorization: `Bearer ${response.data.token}`,
