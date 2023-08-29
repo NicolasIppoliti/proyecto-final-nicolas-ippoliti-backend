@@ -40,13 +40,9 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 
 // Enable CORS
-app.use(cors(
-  {
-    origin: [https://proyecto-final-nicolas-ippoliti-frontend.vercel.app/],
-    methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true
-  }
-));
+app.use(cors({
+  origin: 'https://proyecto-final-nicolas-ippoliti-frontend.vercel.app'
+}));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
