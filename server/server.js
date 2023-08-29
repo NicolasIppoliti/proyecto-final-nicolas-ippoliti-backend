@@ -39,7 +39,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(cors({
   origin: ['https://proyecto-final-nicolas-ippoliti-frontend.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true
 }));
 
 // Static files
