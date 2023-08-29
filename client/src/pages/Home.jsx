@@ -8,7 +8,7 @@ function Home() {
 
   useEffect(() => {
     // Fetch products from backend
-    axios.get('http://localhost:3000/api/products')
+    axios.get('https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/products')
       .then(response => {
         setProducts(response.data);
       })
@@ -27,7 +27,7 @@ function Home() {
         console.log('Token:', token);
         const user = localStorage.getItem('user');
         const userId = JSON.parse(user).id;
-        const response = await axios.post(`http://localhost:3000/api/cart/${userId}/add/${productId}`, { productId }, {
+        const response = await axios.post(`https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/cart/${userId}/add/${productId}`, { productId }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -50,7 +50,7 @@ function Home() {
       console.log('Token:', token);
       const user = localStorage.getItem('user');
       const userId = JSON.parse(user).id;
-      const response = await axios.post(`http://localhost:3000/api/cart/${userId}/add/${productId}`, {}, {
+      const response = await axios.post(`https://proyecto-final-nicolas-ippoliti-backend.vercel.app/api/cart/${userId}/add/${productId}`, {}, {
           headers: {
               'Authorization': `Bearer ${token}`
           }
