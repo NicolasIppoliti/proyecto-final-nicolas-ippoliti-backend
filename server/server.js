@@ -40,7 +40,12 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 
 // Enable CORS
-app.use(cors());
+app.use(cors(
+  {
+    origin: "https://proyecto-final-nicolas-ippoliti-backend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
+));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,7 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins
+    origin: "https://proyecto-final-nicolas-ippoliti-backend.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });

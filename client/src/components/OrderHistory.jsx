@@ -7,7 +7,7 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       const user = JSON.parse(localStorage.getItem('user'));
-      const { data } = await axios.get(`http://localhost:3000/api/orders/${user.id}}`);
+      const { data } = await axios.get(`https://proyecto-final-nicolas-ippoliti-backend.onrender.com/api/orders/${user.id}}`);
       setOrders(data);
     };
 

@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://proyecto-final-nicolas-ippoliti-backend.onrender.com");
 
 socket.on("connect", () => {
   console.log(socket.id); // "G5p5..."

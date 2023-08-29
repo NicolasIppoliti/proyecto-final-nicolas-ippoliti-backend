@@ -14,7 +14,7 @@ function Cart() {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     const userId = JSON.parse(user).id;
-    axios.post(`http://localhost:3000/api/orders`, {
+    axios.post(`https://proyecto-final-nicolas-ippoliti-backend.onrender.com/api/orders`, {
       user: userId,
       orderItems: cartItems.map(cartItem => ({
         product: cartItem.product.id,
@@ -48,7 +48,7 @@ function Cart() {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     const userId = JSON.parse(user).id;
-    axios.get(`http://localhost:3000/api/cart/${userId}`, {
+    axios.get(`https://proyecto-final-nicolas-ippoliti-backend.onrender.com/api/cart/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -57,7 +57,7 @@ function Cart() {
         if (response.data && response.data.cartItems) {
           // Fetch product details for each cart item
           const cartItemsWithDetails = await Promise.all(response.data.cartItems.map(async cartItem => {
-            const productResponse = await axios.get(`http://localhost:3000/api/products/${cartItem.product}`, {
+            const productResponse = await axios.get(`https://proyecto-final-nicolas-ippoliti-backend.onrender.com/api/products/${cartItem.product}`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }
