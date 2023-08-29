@@ -54,27 +54,13 @@ export const generateMockData = async () => {
   for (let i = 0; i < 10; i++) {
     const order = {
       user: users[i]._id,
-      products: [
+      orderItems: [
         {
           product: products[i]._id,
           quantity: faker.number.int(),
         },
       ],
       totalPrice: faker.commerce.price(),
-      shippingAddress: faker.location.streetAddress(),
-      shippingPrice: faker.commerce.price(),
-      taxPrice: faker.commerce.price(),
-      paymentMethod: 'PayPal',
-      paymentResult: {
-        id: faker.string.uuid(),
-        status: 'COMPLETED',
-        update_time: faker.date.recent(),
-        email_address: faker.internet.email(),
-      },
-      isPaid: true,
-      paidAt: faker.date.recent(),
-      isDelivered: true,
-      deliveredAt: faker.date.recent(),
     };
     await OrderRepository.createOrder(order);
   }
