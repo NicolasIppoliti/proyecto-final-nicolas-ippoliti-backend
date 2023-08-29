@@ -36,11 +36,11 @@ const ProductSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'users',
     required: true,
   }
 });
 
-const Product = mongoose.model('Product', ProductSchema);
+const Product = mongoose.model('products', ProductSchema);
 
 export default Product;

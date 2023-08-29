@@ -15,6 +15,7 @@ const schema = Joi.object({
   role: Joi.string().valid('user', 'admin', 'premium').default('user'),
   lastActive: Joi.date().default(Date.now),
   cart: Joi.string(),
+  cid: Joi.string(),
 });
 
 router.post('/register', (req, res, next) => {

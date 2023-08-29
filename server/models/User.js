@@ -25,12 +25,12 @@ const UserSchema = new mongoose.Schema({
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart',
+    ref: 'carts',
   },
 }, {
   timestamps: true,
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('users', UserSchema);
 
 export default User;

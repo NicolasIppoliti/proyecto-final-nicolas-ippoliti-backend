@@ -1,9 +1,9 @@
 class CartDTO {
   constructor(cart) {
     this.id = cart._id;
-    this.products = cart.products;
-    this.owner = cart.owner;
-    this.totalPrice = cart.totalPrice;
+    this.user = cart.user;
+    this.cartItems = cart.cartItems;
+    this.total = cart.total;
   }
 }
 

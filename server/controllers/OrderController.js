@@ -28,6 +28,15 @@ export const getOrderById = async (req, res, next) => {
   }
 };
 
+export const getMyOrders = async (req, res, next) => {
+  try {
+    const orders = await OrderRepository.getMyOrders(req.user._id);
+    return orders;
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateOrder = async (req, res, next) => {
   try {
     const order = await OrderRepository.updateOrder(req.params.id, req.body);

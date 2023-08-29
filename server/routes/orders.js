@@ -6,7 +6,7 @@ import { isAdmin, isAuthenticated } from '../helpers/accessControl.js';
 const router = express.Router();
 const toOrderDto = (order) => new OrderDTO(order);
 
-router.post('/', isAdmin, isAuthenticated, OrderController.createOrder);
+router.post('/', isAuthenticated, OrderController.createOrder);
 
 router.get('/:id', isAdmin, isAuthenticated, async (req, res, next) => {
   try {
@@ -27,6 +27,15 @@ router.get('/', isAdmin, isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.get('/uid', isAuthenticated, async (req, res, next) => {
+  try {
+    const orders = await OrderController.getMyOrders(req, res, next);
+    res.json(orders.map((order) => toOrderDto(order)));
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/:id', isAdmin, isAuthenticated, async (req, res, next) => {
   try {
     const order = await OrderController.updateOrder(req, res, next);
@@ -39,6 +48,7 @@ router.put('/:id', isAdmin, isAuthenticated, async (req, res, next) => {
 router.delete('/:id', isAdmin, isAuthenticated, async (req, res, next) => {
   try {
     const order = await OrderController.deleteOrder(req, res, next);
+    res.json({ msg: 'Order deleted successfully' });
   } catch (err) {
     next(err);
   }

@@ -12,6 +12,10 @@ class OrderRepository {
     return await Order.findById(id);
   }
 
+  async getMyOrders(userId) {
+    return await Order.find({ user: userId });
+  }
+
   async getOrders() {
     return await Order.find();
   }

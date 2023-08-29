@@ -10,11 +10,15 @@ const toUserDto = (user) => new UserDTO(user);
 
 export const registerUser = async (req, res, next) => {
   try {
+    console.log(req.body)
     const user = await UserRepository.createUser(req.body);
-    const cart = await CartRepository.createCart({ user: user._id });
-    user.cart = cart._id;
-    await user.save();
-    res.json(toUserDto(user));  // Send response back to client
+    const cart = await CartRepository.createCart();
+    console.log('Created Cart:', cart);
+    const updatedCart = await CartRepository.updateCart(cart.id, { user: user._id });
+    user.cid = updatedCart.id;
+    user.cart = updatedCart.id;
+    await UserRepository.updateUser(user._id, { cart: updatedCart.id, cid: updatedCart.id });
+    res.json(toUserDto(user));
   } catch (err) {
     next(err);
   }
@@ -81,16 +85,6 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 }
-
-export const getUserById = async (req, res, next) => {
-  try {
-    const user = await UserRepository.getUserById(req.params.id);
-    if (!user) return res.status(404).json({ msg: 'User not found' });
-    return user;
-  } catch (err) {
-    next(err);
-  }
-};
 
 export const togglePremium = async (req, res, next) => {
   try {
