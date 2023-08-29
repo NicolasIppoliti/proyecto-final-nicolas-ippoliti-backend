@@ -7,10 +7,6 @@ import cors from 'cors';
 import path from 'path';
 import __dirname from './utils.js';
 
-// Socket.io imports
-import http from 'http';
-import { Server } from 'socket.io';
-
 // Passport imports
 import passport from 'passport';
 import './config/passport.js'
@@ -47,14 +43,7 @@ app.use(cors({
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Socket.io configuration
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*", // Allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE"]
-  }
-});
+// Swagger configuration
 const swaggerDocument = yaml.load('./swagger/swagger.yaml');
 
 io.on('connection', (socket) => {
