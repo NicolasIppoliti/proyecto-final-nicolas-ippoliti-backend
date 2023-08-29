@@ -9,7 +9,6 @@ import __dirname from './utils.js';
 
 // Socket.io imports
 import http from 'http';
-import { Server } from 'socket.io';
 
 // Passport imports
 import passport from 'passport';
@@ -40,37 +39,14 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 
 // Enable CORS
-app.use(cors(
-  {
-    origin: "https://proyecto-final-nicolas-ippoliti-backend.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE"]
-  }
-));
+app.use(cors());
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Socket.io configuration
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "https://proyecto-final-nicolas-ippoliti-backend.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE"]
-  }
-});
 const swaggerDocument = yaml.load('./swagger/swagger.yaml');
-
-io.on('connection', (socket) => {
-  logger.info('a user connected');
-
-  socket.on('disconnect', () => {
-    logger.info('user disconnected');
-  });
-
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
 
 //Generate mock data
 app.get('/mockup', async (req, res, next) => {
